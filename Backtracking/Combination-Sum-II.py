@@ -1,27 +1,27 @@
-from typing import List
-
-class Solution:
-    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
-        answer = []
+class Solution(object):
+    def combinationSum2(self, candidates, target):
+        ans = []
+        ds = []
         candidates.sort()
+        """
+        # Sorted = [1,1,2,5,6,7,10]
+        """
 
-        def dfs (idx: int, curr: List[int], currSum):
-            if (currSum == target): 
-                answer.append(curr.copy())
-                return 
-            if (currSum > target) or (idx >= len(candidates)):
-                return 
+        def findCombination(index, target):
+            # Base case
+            if target == 0:
+                ans.append(ds.copy()) # ds[:] creates a copy/slice of the entire list to avoid appending a reference
+                return
             
-            curr.append(candidates[idx])
+            for i in range(index, len(candidates)):
+                if i > index and candidates[i] == candidates[i - 1]:
+                    continue
+                if candidates[i] > target:
+                    break
+                ds.append(candidates[i])
+                findCombination(i + 1, target - candidates[i])
+                ds.pop()
 
-            # Left split: First Decision to append new element indexed by idx
-            dfs(idx + 1 , curr, currSum + candidates[idx])
 
-            # Revert to parent node, so that it can be processed by the right split 
-            curr.pop()
-
-            # Right split: Second Decision to not append anything and keep the original 
-            dfs(idx, curr, currSum)
-        dfs(0, [], 0)
-        return answer
-
+        findCombination(0, target)  
+        return ans
