@@ -61,15 +61,7 @@ class Solution:
             print(f"Current Orange {rowIdx, colIdx} is being popped from queue, layer: {layer}")
             # TODO: Check the base cases that requires indexing 
 
-            # !If the number of rotten oranges matches the total number of oranges then we are set 
-            print(f"Current Total Rotten: {totalRotten}")
-            print(f"Current Total Oranges: {totalOranges}")
-
-            # !===========
-            # ! This is the main culprit of the bug RIGHT NOW
-            #!===========
-            if (totalOranges == totalRotten): 
-                return layer
+            
 
             # 3) If the current orange is healthy == 1, then we have to infect them
             if (grid[rowIdx][colIdx] == 1):
@@ -79,9 +71,17 @@ class Solution:
                 print(f"Current Total Rotten after infecting: {totalRotten}")
 
             # * Dealing with the current orange 
+
+            # !If the number of rotten oranges matches the total number of oranges then we are set 
+            print(f"Current Total Rotten: {totalRotten}")
+            print(f"Current Total Oranges: {totalOranges}")
+            if (totalOranges == totalRotten): 
+                return layer
             
             visitedOranges.add((rowIdx,colIdx))
             print(f"Current Visited Oranges: {visitedOranges}")
+            
+            # !------------- Seperation of previous layer from the current layer
             
             # TODO: Dealing with traversing to the neighboring oranges, which means their layer is + 1 
             layer += 1 
@@ -103,6 +103,9 @@ class Solution:
                 queue.append((newRow, newCol, layer))
                 print(f"Current Orange {newRow, newCol} is being pushed into queue, layer: {layer}")
             print(f"What queue looks like after the current loop: {queue}")
+            print(f"Current Total Rotten: {totalRotten}")
+            print(f"Current Total Oranges: {totalOranges}")
+            
         
         return -1
             
